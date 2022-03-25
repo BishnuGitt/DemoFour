@@ -1,0 +1,9 @@
+Id_Base_Extra,NickName,EmployeeId,FirstName,LastName,CellNumber,EnrolledDate,BaseEmpExtraInfo_id,OldEmployee
+101,Jerk,29,Hillary,Jarrick,2220904587,2022-03-13,101,false
+102,Davidson,30,David,John,9670904587,2022-03-10,102,true
+95,Mice,26,Kripa,Jyoti,1234567890,2022-03-16,95,false
+103,Sameer,28,Samip,Kapoor,9330904587,2022-03-11,103,true
+121,Kapu,32,Kopila,Regmi,773904587,2022-03-15,121,true
+122,Premala,33,Preeti,Regmi,773904587,2022-02-13,122,true
+123,Rosh,34,Roshni,Regmi,773904587,2024-03-01,123,true
+117,Sameer,31,Santi,Surya,230904587,2022-03-18,117,true

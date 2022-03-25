@@ -1,0 +1,262 @@
+
+use javaLength; 
+
+INSERT INTO employee_tbl( first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id)
+VALUES ('Kumar', 'Baral', '9123094587', curdate(), true, 5 );
+INSERT INTO employee_tbl( first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id)
+VALUES ('Kriti', 'Regmi', '7208943216', curdate(), false, 15);
+
+INSERT INTO employee_tbl( first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id)
+VALUES ('Mohan', 'Neaupane', '6144590321', curdate(), true, 20 );
+INSERT INTO employee_tbl( first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id)
+VALUES ('Rikil', 'Patel', '97640032198', curdate(), false, 25);
+INSERT INTO employee_tbl( first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id)
+VALUES ('Tara', 'Dahal', '9830701834', curdate(), true, 30);
+
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `employeAndBaseExtra_store_procedure`(
+firstName nvarchar(50), 
+lastName nvarchar(50),
+cellNumber nvarchar(50),
+enrolledDate Date,
+baseEmpExtraInfo_id int, 
+oldEmployee boolean,
+Id int,
+nickName nvarchar(50))
+BEGIN
+	insert into baseEmpExtraInfo_tbl values (Id, nickName); 
+    commit;
+    
+    insert into employee_tbl(first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id) values (firstName, lastName, cellNumber, enrolledDate, baseEmpExtraInfo_id, oldEmployee);
+	commit;
+END
+
+
+select * from employee_tbl; 
+
+ALTER TABLE employee_tbl MODIFY baseempextrainfo_id int(11);
+
+ALTER TABLE javaLength.employee_tbl
+DROP CONSTRAINT FK_DETAIL;
+
+
+ALTER TABLE employee_tbl
+ADD CONSTRAINT FK_EMPLOYEE_DEPARTMENT
+FOREIGN KEY (employee_depart_id) REFERENCES department_table(id_depart);
+
+delete  from baseEmpExtraInfo_tbl; 
+commit; 
+
+update employee_tbl set baseempextrainfo_id = null; 
+
+
+
+Create TABLE employee_tbl (	
+	id_employee int auto_increment not null,
+    first_name nvarchar (30),
+   last_name nvarchar (40),
+    cell_number nvarchar (56),
+    enrolled_date Date, 
+    is_old_employee boolean default false,
+    baseempextrainfo_id int(11),
+    
+    
+	PRIMARY KEY (`id_employee`),
+  KEY `FK_DETAIL_idx` (`id_employee`),
+  CONSTRAINT `FK_DETAIL` FOREIGN KEY (`baseempextrainfo_id`) REFERENCES `baseEmpExtraInfo_tbl` (`id`) 
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+INSERT INTO baseEmpExtraInfo_tbl(id, nick_name) VALUES (5, 'K');
+INSERT INTO baseEmpExtraInfo_tbl(id, nick_name) VALUES (15, 'Krita');
+INSERT INTO baseEmpExtraInfo_tbl(id, nick_name) VALUES (20, 'Mo');
+INSERT INTO baseEmpExtraInfo_tbl(id, nick_name) VALUES (25, 'Pattal');
+INSERT INTO baseEmpExtraInfo_tbl(id, nick_name) VALUES (30, 'Tarhey');
+
+
+
+
+CREATE TABLE `baseEmpExtraInfo_tbl` (
+  `id` int(11) NOT NULL,
+  `nick_name` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+SELECT * 
+FROM employee_tbl
+INNER JOIN baseEmpExtraInfo_tbl ON employee_tbl.baseempextrainfo_id=baseEmpExtraInfo_tbl.id;
+
+
+use javaLength; 
+
+call employeAndBaseExtra_store_procedure(
+"Kripa", 
+"Jyoti",
+"1234567890",
+curdate(),
+false,
+96,
+97,
+"Mice");
+
+insert into employee_tbl(first_name, last_name, cell_number, enrolled_date, is_old_employee) values ("Rima", "Hoda", "89383", curdate(), true);
+
+UPDATE baseEmpExtraInfo_tbl
+SET nick_name = 'Kripu'
+WHERE id = 95;
+
+
+use javaLength;
+CREATE TABLE `department_table` (
+  `id_depart` int(11) AUTO_INCREMENT NOT NULL,
+  `department_name` varchar(128) not NULL,
+  `years_experience` double DEFAULT NULL,
+  PRIMARY KEY (`id_depart`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+
+
+INSERT INTO baseEmpExtraInfo_tbl(id, nick_name) VALUES (30, 'Tarhey');
+
+SELECT * FROM javaLength.department_table;
+
+insert into department_table(department_name, years_experience) values ("Pilot", 7); 
+insert into baseEmpExtraInfo_tbl(id, nick_name) values (110, "Kusum"); 
+insert into employee_tbl(first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id, employee_depart_id) values ("Krishna", "Subedi", "71734343453", curdate(), false, 66, 106);
+
+DELETE FROM department_table; 
+
+ALTER TABLE javaLength.employee_tbl
+ADD employee_depart_id int(11)
+after baseEmpExtraInfo_id; 
+
+
+use javaLength;
+DELETE employee_tbl, baseEmpExtraInfo_tbl
+   FROM employee_tbl
+        INNER JOIN baseEmpExtraInfo_tbl ON  employee_tbl.baseempextrainfo_id  = baseEmpExtraInfo_tbl.id  
+  WHERE employee_tbl.id_employee = 32;
+  
+  
+  
+  
+  CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertEmployeeDepartmentBaseextra`(
+
+-- id int(11),
+nickName nvarchar(50),
+
+-- @departId int(11),
+departmentName nvarchar(50),	
+yearsExperience double,
+
+-- @employeeId int(11),
+firstName nvarchar(50),  
+lastName nvarchar(50),  
+cellNumber nvarchar(50),  
+-- enrolledDate Date, 
+isOldEmployee boolean
+-- baseEmpExtraInfo_id int(11),
+-- employeeDepartId int(11),
+
+)
+BEGIN
+	declare newBaseExtraId int(11) default 0; 
+    declare newemployee_depart_id int(11) default 0; 
+    
+   insert into baseEmpExtraInfo_tbl(nick_name) values ( nickName); 
+    commit;
+    -- 
+    select id into newBaseExtraId from baseEmpExtraInfo_tbl where nick_name = nickName; 
+    
+    insert into department_table(deparment_name, years_experience) values ( departmentName, yearsExperience); 
+    commit;
+    -- 
+        select id_depart into newemployee_depart_id from department_table where deparment_name = departmentName 
+							and years_experience = yearsExperience; 
+
+    insert into employee_tbl(first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id, employee_depart_id ) 
+				values (firstName, lastName, cellNumber, curdate(), isOldEmployee, newBaseExtraId, newemployee_depart_id);
+	commit; 
+END
+
+
+ALTER TABLE baseEmpExtraInfo_tbl
+MODIFY COLUMN id int not null auto_increment;
+
+ALTER TABLE baseEmpExtraInfo_tbl
+ADD CONSTRAINT UC_BASEXTRA UNIQUE (nick_name);
+
+
+delete from baseEmpExtraInfo_tbl where id = 123; 
+
+
+
+  PRIMARY KEY (`id_employee`),
+  KEY `FK_DETAIL_idx` (`id_employee`),
+  CONSTRAINT `FK_DETAIL` FOREIGN KEY (`baseempextrainfo_id`) REFERENCES `baseEmpExtraInfo_tbl` (`id`) 
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE baseEmpExtraInfo_tbl
+MODIFY COLUMN id int not null auto_increment;
+
+ALTER TABLE employee_tbl
+DROP CONSTRAINT FK_DETAIL;
+
+ALTER TABLE employee_tbl
+ADD CONSTRAINT FK_EMPLOYEE_BASEXTRA
+FOREIGN KEY (baseempextrainfo_id) REFERENCES baseEmpExtraInfo_tbl(id);
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertEmployeeDepartmentBaseextra`(
+-- id int(11),
+nickName nvarchar(50),
+-- @departId int(11),
+departmentName nvarchar(50),	
+yearsExperience double,
+-- @employeeId int(11),
+firstName nvarchar(50),  
+lastName nvarchar(50),  
+cellNumber nvarchar(50),  
+-- enrolledDate Date, 
+isOldEmployee boolean
+-- baseEmpExtraInfo_id int(11),
+-- employeeDepartId int(11),
+)
+BEGIN
+	DECLARE newBaseExtraId int(11) default 0; 
+    declare newemployee_depart_id int(11) default 0; 
+    -- exixting id
+    select id into newBaseExtraId from baseEmpExtraInfo_tbl where nick_name = nickName; 
+    IF newBaseExtraId = 0
+    THEN
+		insert into baseEmpExtraInfo_tbl(nick_name) values ( nickName);
+		commit;
+        -- new id
+		select id into newBaseExtraId from baseEmpExtraInfo_tbl where nick_name = nickName; 
+	END IF; 
+    insert into department_table(department_name, years_experience) values ( departmentName, yearsExperience); 
+    commit;
+    -- 
+        select distinct id_depart into newemployee_depart_id from department_table where department_name = departmentName 
+							and years_experience = yearsExperience; 
+
+    insert into employee_tbl(first_name, last_name, cell_number, enrolled_date, is_old_employee, baseempextrainfo_id, employee_depart_id ) 
+				values (firstName, lastName, cellNumber, curdate(), isOldEmployee, newBaseExtraId, newemployee_depart_id);
+	commit; 
+END
+
+
+ALTER TABLE baseEmpExtraInfo_tbl
+MODIFY COLUMN id int not null auto_increment;
+
+ALTER TABLE employee_tbl
+DROP CONSTRAINT FK_DETAIL;
+
+ALTER TABLE employee_tbl
+ADD CONSTRAINT FK_EMPLOYEE_BASEXTRA
+FOREIGN KEY (baseempextrainfo_id) REFERENCES baseEmpExtraInfo_tbl(id);
+
+
